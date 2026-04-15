@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ============================================================
+     JOOD — PORTFOLIO WEBSITE
+     Files:
+       index.html  ← structure (this file)
+       style.css   ← all styles
+       script.js   ← all JavaScript
+     ============================================================ -->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jood — Web Developer</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Font Awesome Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+
+  <!-- Our Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════
+       NAV — Top navigation bar
+  ══════════════════════════════════ -->
+  <nav>
+    <a href="#hero" class="nav-logo">J<span>.</span>ood</a>
+
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#dashboard">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- ══════════════════════════════════
+       HERO — Main landing section
+  ══════════════════════════════════ -->
+  <section id="hero">
+
+    <!-- Purple glow behind avatar -->
+    <div class="hero-glow"></div>
+
+    <div class="hero-inner">
+
+      <!-- "Available" badge -->
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Available for projects
+      </div>
+
+      <!-- Avatar circle -->
+      <div class="hero-avatar">J</div>
+
+      <!-- Name & role -->
+      <h1 class="hero-name">Jood</h1>
+      <p class="hero-role">// Web Developer &amp; UI Designer</p>
+
+      <!-- Short description -->
+      <p class="hero-desc">
+        Passionate about turning ideas into interactive digital experiences.
+        Building clean, functional, and memorable web products.
+      </p>
+
+      <!-- CTA buttons -->
+      <div class="hero-btns">
+        <a href="#" class="btn-primary" onclick="downloadCV(event)">
+          <i class="fas fa-download"></i> Download CV
+        </a>
+        <a href="#contact" class="btn-secondary">
+          <i class="fas fa-paper-plane"></i> Contact Me
+        </a>
+      </div>
+
+      <!-- Stats row — numbers animated by JS -->
+      <div class="stats-row">
+        <div class="stat-item">
+          <span class="stat-num" id="cnt-projects">0</span>
+          <span class="stat-label">Projects</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" id="cnt-clients">0</span>
+          <span class="stat-label">Clients</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" id="cnt-commits">0</span>
+          <span class="stat-label">Commits</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" id="cnt-hours">0</span>
+          <span class="stat-label">Dev Hours</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       ABOUT — Who is Jood + Timeline
+  ══════════════════════════════════ -->
+  <section id="about" class="section fade-in">
+
+    <p class="section-tag">01 — About</p>
+    <h2 class="section-title">Who is Jood?</h2>
+
+    <div class="about-grid">
+
+      <!-- Left: bio text -->
+      <div class="about-text">
+        <p>
+          Jood is an ambitious young web developer who strives to turn ideas
+          into successful digital projects. Passionate about the intersection
+          of design and technology, he crafts interfaces that are both
+          beautiful and functional.
+        </p>
+        <p>
+          Currently focused on mastering modern frontend technologies —
+          HTML, CSS, and JavaScript — with a strong eye for layout, color,
+          and detail. Every project is an opportunity to push the boundaries
+          of what's possible on the web.
+        </p>
+        <p>
+          Open to collaborations, freelance projects, and new opportunities.
+          If you have an idea, let's build it together.
+        </p>
+
+        <a href="#contact" class="btn-primary" style="margin-top: 1rem; display: inline-flex;">
+          Let's Work Together <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
+        </a>
+      </div>
+
+      <!-- Right: timeline -->
+      <div class="timeline">
+
+        <div class="tl-item">
+          <p class="tl-year">2024</p>
+          <p class="tl-title">Started Web Development</p>
+          <p class="tl-desc">Began learning HTML &amp; CSS, built first static pages</p>
+        </div>
+
+        <div class="tl-item">
+          <p class="tl-year">2024</p>
+          <p class="tl-title">First Freelance Project</p>
+          <p class="tl-desc">Delivered landing page for a local client</p>
+        </div>
+
+        <div class="tl-item">
+          <p class="tl-year">2025</p>
+          <p class="tl-title">Launched 5 Projects</p>
+          <p class="tl-desc">Portfolio grew with e-commerce &amp; SaaS-style pages</p>
+        </div>
+
+        <div class="tl-item">
+          <p class="tl-year">Now</p>
+          <p class="tl-title">Learning JavaScript &amp; Beyond</p>
+          <p class="tl-desc">Diving deeper into interactivity and frontend frameworks</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       DASHBOARD — Skills & Analytics
+  ══════════════════════════════════ -->
+  <div class="dash-wrapper" id="dashboard">
+    <div class="dash-inner fade-in">
+
+      <p class="section-tag">02 — Dashboard</p>
+      <h2 class="section-title">Dev Analytics</h2>
+      <p class="section-sub">A snapshot of skills, activity, and growth metrics.</p>
+
+      <!-- ── Metric cards ── -->
+      <div class="dash-grid">
+
+        <div class="dash-card">
+          <p class="dash-card-label">HTML Mastery</p>
+          <p class="dash-card-value" style="color: #e36024;">100%</p>
+          <p class="dash-card-change up"><i class="fas fa-arrow-up"></i> Expert level</p>
+        </div>
+
+        <div class="dash-card">
+          <p class="dash-card-label">CSS Mastery</p>
+          <p class="dash-card-value" style="color: var(--accent);">90%</p>
+          <p class="dash-card-change up"><i class="fas fa-arrow-up"></i> Advanced</p>
+        </div>
+
+        <div class="dash-card">
+          <p class="dash-card-label">JavaScript</p>
+          <p class="dash-card-value" style="color: #f7df1e;">12%</p>
+          <p class="dash-card-change warn"><i class="fas fa-fire"></i> In progress</p>
+        </div>
+
+        <div class="dash-card">
+          <p class="dash-card-label">Projects Done</p>
+          <p class="dash-card-value" style="color: var(--accent3);">5</p>
+          <p class="dash-card-change up"><i class="fas fa-arrow-up"></i> +2 this month</p>
+        </div>
+
+      </div>
+
+      <!-- ── Skill progress bars ── -->
+      <!-- To change a percentage: edit data-width AND the span text -->
+      <div class="skills-grid">
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">HTML5</span>
+            <span class="skill-pct">100%</span>
+          </div>
+          <div class="skill-track">
+            <div class="skill-fill" data-width="100%" style="background: #e36024; width: 0;"></div>
+          </div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">CSS3 / Flexbox / Grid</span>
+            <span class="skill-pct">90%</span>
+          </div>
+          <div class="skill-track">
+            <div class="skill-fill" data-width="90%" style="background: var(--accent); width: 0;"></div>
+          </div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Responsive Design</span>
+            <span class="skill-pct">85%</span>
+          </div>
+          <div class="skill-track">
+            <div class="skill-fill" data-width="85%" style="background: var(--accent2); width: 0;"></div>
+          </div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">UI / UX Design</span>
+            <span class="skill-pct">75%</span>
+          </div>
+          <div class="skill-track">
+            <div class="skill-fill" data-width="75%" style="background: #a855f7; width: 0;"></div>
+          </div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">JavaScript</span>
+            <span class="skill-pct">12%</span>
+          </div>
+          <div class="skill-track">
+            <div class="skill-fill" data-width="12%" style="background: #f7df1e; width: 0;"></div>
+          </div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Git / Version Control</span>
+            <span class="skill-pct">60%</span>
+          </div>
+          <div class="skill-track">
+            <div class="skill-fill" data-width="60%" style="background: var(--accent3); width: 0;"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Activity bar chart (built by script.js) ── -->
+      <!-- To change data: edit the months/hours arrays in script.js -->
+      <div class="chart-container">
+        <div class="chart-header">
+          <div>
+            <p class="chart-title">Coding Activity</p>
+            <p class="chart-sub">Last 7 months — hours per month</p>
+          </div>
+          <p style="font-size: 12px; color: var(--accent); font-family: var(--font-mono);">+34% avg</p>
+        </div>
+        <div class="bar-chart" id="bar-chart"></div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       PROJECTS — Portfolio cards
+  ══════════════════════════════════ -->
+  <section id="projects" class="section fade-in">
+
+    <p class="section-tag">03 — Work</p>
+    <h2 class="section-title">Featured Projects</h2>
+    <p class="section-sub">A selection of projects built with precision and care.</p>
+
+    <div class="projects-grid">
+
+      <!-- Project 1 -->
+      <a href="#" class="project-card">
+        <div class="project-thumb" style="background: linear-gradient(135deg, #1a0a00, #3d1a00);">⌨️</div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">Landing Page</span>
+          </div>
+          <p class="project-title">Keyboard Cleaning Brush</p>
+          <p class="project-desc">A sleek landing page for a precision keyboard cleaning brush — practical and designed for every user.</p>
+          <div class="project-footer">
+            <span>2024</span>
+            <span class="project-link">View <i class="fas fa-arrow-right"></i></span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Project 2 -->
+      <a href="#" class="project-card">
+        <div class="project-thumb" style="background: linear-gradient(135deg, #000a1a, #001a3d);">👟</div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">E-commerce</span>
+          </div>
+          <p class="project-title">Shoe Project Website</p>
+          <p class="project-desc">Modern, comfortable shoes with high quality — a fully designed product showcase for every style and occasion.</p>
+          <div class="project-footer">
+            <span>2024</span>
+            <span class="project-link">View <i class="fas fa-arrow-right"></i></span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Project 3 -->
+      <a href="#" class="project-card">
+        <div class="project-thumb" style="background: linear-gradient(135deg, #0a001a, #1a003d);">💻</div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">Tech Store</span>
+          </div>
+          <p class="project-title">TECHSHOP Website</p>
+          <p class="project-desc">Tech store offering the latest phones, laptops, and accessories with great prices and guaranteed quality.</p>
+          <div class="project-footer">
+            <span>2025</span>
+            <span class="project-link">View <i class="fas fa-arrow-right"></i></span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Project 4 -->
+      <a href="#" class="project-card">
+        <div class="project-thumb" style="background: linear-gradient(135deg, #001a0a, #003d1a);">🔐</div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">Platform</span>
+          </div>
+          <p class="project-title">Userly — Username Market</p>
+          <p class="project-desc">A platform for buying and selling unique usernames with competitive pricing and multiple payment options.</p>
+          <div class="project-footer">
+            <span>2025</span>
+            <span class="project-link">View <i class="fas fa-arrow-right"></i></span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Project 5 -->
+      <a href="#" class="project-card">
+        <div class="project-thumb" style="background: linear-gradient(135deg, #1a0a00, #3d2500);">🧹</div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">Product</span>
+          </div>
+          <p class="project-title">Smart Cleaning Brush</p>
+          <p class="project-desc">Smart brush for easy, precise cleaning of keyboards and devices — lightweight and practical design.</p>
+          <div class="project-footer">
+            <span>2025</span>
+            <span class="project-link">View <i class="fas fa-arrow-right"></i></span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       REVIEWS — Client testimonials
+  ══════════════════════════════════ -->
+  <section id="reviews" class="section fade-in" style="padding-top: 0;">
+
+    <p class="section-tag">04 — Testimonials</p>
+    <h2 class="section-title">What Clients Say</h2>
+    <p class="section-sub">Real words from people I've had the pleasure to work with.</p>
+
+    <div class="reviews-grid">
+
+      <!-- Review 1 -->
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">
+          "Excellent service and speed of implementation. Jood delivered exactly
+          what I envisioned — clean, fast, and professional."
+        </p>
+        <div class="reviewer-info">
+          <div class="rev-avatar" style="background: rgba(124,106,255,0.15); color: var(--accent2);">TS</div>
+          <div>
+            <p class="rev-name">Tomas Shalbe</p>
+            <p class="rev-role">Business Owner</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Review 2 -->
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">
+          "I was impressed by the attention to detail and how quickly revisions
+          were made. The final result exceeded expectations."
+        </p>
+        <div class="reviewer-info">
+          <div class="rev-avatar" style="background: rgba(249,115,22,0.15); color: #f97316;">BE</div>
+          <div>
+            <p class="rev-name">Billie E.</p>
+            <p class="rev-role">Creative Director</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Review 3 -->
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">
+          "A highly reliable developer who understands the client's needs.
+          Looking forward to future collaborations."
+        </p>
+        <div class="reviewer-info">
+          <div class="rev-avatar" style="background: rgba(74,222,128,0.15); color: var(--accent3);">AM</div>
+          <div>
+            <p class="rev-name">Ahmed M.</p>
+            <p class="rev-role">Startup Founder</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       CONTACT — Form + social links
+  ══════════════════════════════════ -->
+  <section id="contact" class="section fade-in" style="padding-top: 0;">
+
+    <p class="section-tag">05 — Contact</p>
+    <h2 class="section-title">Let's Build Something</h2>
+
+    <div class="contact-grid">
+
+      <!-- Left: info & social links -->
+      <div class="contact-info">
+        <h3>Get in touch</h3>
+        <p>Have a project in mind? Want to collaborate? Or just want to say hi? My inbox is always open.</p>
+
+        <div class="contact-links">
+          <!-- ⬇ Replace href with your actual links -->
+          <a href="https://facebook.com" class="contact-link" target="_blank">
+            <div class="contact-link-icon"><i class="fab fa-facebook-f"></i></div>
+            <span>Facebook</span>
+          </a>
+          <a href="https://instagram.com" class="contact-link" target="_blank">
+            <div class="contact-link-icon"><i class="fab fa-instagram"></i></div>
+            <span>Instagram</span>
+          </a>
+          <a href="https://t.me/YourTelegramUser" class="contact-link" target="_blank">
+            <div class="contact-link-icon"><i class="fab fa-telegram"></i></div>
+            <span>Telegram</span>
+          </a>
+          <a href="https://wa.me/YourNumber" class="contact-link" target="_blank">
+            <div class="contact-link-icon"><i class="fab fa-whatsapp"></i></div>
+            <span>WhatsApp</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: contact form -->
+      <div class="contact-form">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" placeholder="e.g. Ahmed Ali" id="f-name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" placeholder="you@example.com" id="f-email" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-input" placeholder="Tell me about your project..." id="f-msg"></textarea>
+        </div>
+        <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="sendMsg()">
+          <i class="fas fa-paper-plane"></i> Send Message
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       FOOTER
+  ══════════════════════════════════ -->
+  <footer>
+    <div class="footer-socials">
+      <!-- ⬇ Replace href with your actual links -->
+      <a href="https://facebook.com" class="soc" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://instagram.com" class="soc" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://t.me/YourTelegramUser" class="soc" target="_blank"><i class="fab fa-telegram"></i></a>
+      <a href="https://wa.me/YourNumber" class="soc" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    </div>
+    <p>© 2025 Jood — Web Developer · Built with HTML &amp; CSS</p>
+  </footer>
+
+
+  <!-- ══════════════════════════════════
+       TOAST notification popup
+  ══════════════════════════════════ -->
+  <div class="toast" id="toast">
+    <span class="toast-icon"><i class="fas fa-check-circle"></i></span>
+    <span id="toast-msg">Message sent!</span>
+  </div>
+
+
+  <!-- Our Script -->
+  <script src="script.js"></script>
+
+</body>
+</html>
