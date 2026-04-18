@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>جود — مطور ويب</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo" id="nav-name">ج<span>.</span>ود</a>
+  <ul class="nav-links">
+    <li><a href="#about">من أنا</a></li>
+    <li><a href="#dashboard">المهارات</a></li>
+    <li><a href="#projects">المشاريع</a></li>
+    <li><a href="#reviews">آراء العملاء</a></li>
+    <li><a href="#contact" class="nav-cta">تواصل معي</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      <span id="hero-available">متاح للمشاريع</span>
+    </div>
+    <div class="hero-avatar" id="hero-initial">ج</div>
+    <h1 class="hero-name" id="hero-name">جود</h1>
+    <p class="hero-role" id="hero-role">// مطور ويب ومصمم واجهات</p>
+    <p class="hero-desc" id="hero-desc">شغوف بتحويل الأفكار إلى تجارب رقمية تفاعلية. أبني مواقع نظيفة وعملية لا تُنسى.</p>
+    <div class="hero-btns">
+
+      <a href="#contact" class="btn-secondary">
+        <i class="fas fa-paper-plane"></i> تواصل معي
+      </a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item">
+        <span class="stat-num" id="cnt-projects">0</span>
+        <span class="stat-label">مشروع</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" id="cnt-clients">0</span>
+        <span class="stat-label">عميل</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" id="cnt-commits">0</span>
+        <span class="stat-label">commit</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" id="cnt-hours">0</span>
+        <span class="stat-label">ساعة برمجة</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section fade-in">
+  <p class="section-tag">٠١ — من أنا</p>
+  <h2 class="section-title">من هو جود؟</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p id="about-p1">جود مطور ويب شاب طموح يسعى لتحويل أفكاره إلى مشاريع رقمية ناجحة. شغوف بالتقاطع بين التصميم والتقنية، يصنع واجهات جميلة وعملية في نفس الوقت.</p>
+      <p id="about-p2">يركز حالياً على إتقان تقنيات الواجهة الأمامية الحديثة — HTML وCSS وJavaScript — مع عين حادة على التصميم والتفاصيل. كل مشروع هو فرصة لدفع حدود ما هو ممكن.</p>
+      <p id="about-p3">مفتوح للتعاون والمشاريع الحرة والفرص الجديدة. إذا كان لديك فكرة، فلنبنيها معاً.</p>
+      <a href="#contact" class="btn-primary" style="margin-top:1rem;display:inline-flex;">
+        لنعمل معاً <i class="fas fa-arrow-left" style="margin-right:6px"></i>
+      </a>
+    </div>
+    <div class="timeline" id="timeline-container">
+      <!-- filled by script.js from data.js -->
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<div class="dash-wrapper" id="dashboard">
+  <div class="dash-inner fade-in">
+    <p class="section-tag">٠٢ — لوحة البيانات</p>
+    <h2 class="section-title">إحصائيات المطور</h2>
+    <p class="section-sub">نظرة سريعة على المهارات والنشاط والتطور.</p>
+
+    <div class="dash-grid" id="dash-cards">
+      <!-- filled by script.js -->
+    </div>
+
+    <div class="skills-grid" id="skills-container">
+      <!-- filled by script.js -->
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-header">
+        <div>
+          <p class="chart-title">نشاط البرمجة</p>
+          <p class="chart-sub">الساعات لكل شهر</p>
+        </div>
+        <p style="font-size:12px;color:var(--accent);font-family:var(--font-mono)">+34% معدل</p>
+      </div>
+      <div class="bar-chart" id="bar-chart"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects" class="section fade-in">
+  <p class="section-tag">٠٣ — الأعمال</p>
+  <h2 class="section-title">المشاريع المميزة</h2>
+  <p class="section-sub">مجموعة من المشاريع المبنية بدقة واهتمام.</p>
+  <div class="projects-grid" id="projects-container">
+    <!-- filled by script.js -->
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="section fade-in" style="padding-top:0">
+  <p class="section-tag">٠٤ — آراء العملاء</p>
+  <h2 class="section-title">ماذا يقول العملاء؟</h2>
+  <p class="section-sub">كلمات حقيقية من أشخاص تشرفت بالعمل معهم.</p>
+  <div class="reviews-grid" id="reviews-container">
+    <!-- filled by script.js -->
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section fade-in" style="padding-top:0">
+  <p class="section-tag">٠٥ — تواصل</p>
+  <h2 class="section-title">لنبني شيئاً معاً</h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>تواصل معي</h3>
+      <p>هل لديك مشروع؟ تريد التعاون؟ أو تريد فقط أن تقول مرحباً؟ صندوق الوارد مفتوح دائماً.</p>
+      <div class="contact-links" id="social-links">
+        <!-- filled by script.js -->
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-group">
+        <label class="form-label">اسمك</label>
+        <input type="text" class="form-input" placeholder="مثال: أحمد علي" id="f-name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">البريد الإلكتروني</label>
+        <input type="email" class="form-input" placeholder="you@example.com" id="f-email" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">الرسالة</label>
+        <textarea class="form-input" placeholder="أخبرني عن مشروعك..." id="f-msg"></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;justify-content:center" onclick="sendMsg()">
+        <i class="fas fa-paper-plane"></i> إرسال الرسالة
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-socials" id="footer-socials">
+    <!-- filled by script.js -->
+  </div>
+  <p id="footer-copy">© 2025 جود — مطور ويب · مبني بـ HTML وCSS</p>
+</footer>
+
+<div class="toast" id="toast">
+  <span class="toast-icon"><i class="fas fa-check-circle"></i></span>
+  <span id="toast-msg"></span>
+</div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

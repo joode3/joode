@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>لوحة التحكم — جود</title>
+  <meta name="robots" content="noindex,nofollow"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root{
+      --bg:#08080d;--bg2:#0f0f18;--bg3:#171724;--bg4:#1e1e2e;
+      --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+      --text:#eeedf8;--text2:#8887a0;--text3:#4e4d62;
+      --accent:#7c6aff;--accent2:#a78bfa;
+      --green:#4ade80;--red:#f87171;--orange:#fb923c;--yellow:#fbbf24;
+      --font:'Tajawal',sans-serif;--font-mono:'DM Mono',monospace;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;overflow-x:hidden}
+
+    /* ── LOGIN ── */
+    #login-screen{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+    .login-box{width:360px;background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:2.5rem;text-align:center}
+    .login-logo{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#a855f7);display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;margin:0 auto 1.25rem;box-shadow:0 0 30px rgba(124,106,255,.3)}
+    .login-title{font-size:22px;font-weight:700;margin-bottom:4px}
+    .login-sub{font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-bottom:2rem}
+    .login-field{margin-bottom:1rem;text-align:right}
+    .login-label{display:block;font-size:11px;color:var(--text3);margin-bottom:6px}
+    .login-input{width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font);font-size:14px;outline:none;transition:border-color .2s;direction:ltr}
+    .login-input:focus{border-color:var(--accent)}
+    .login-input::placeholder{color:var(--text3)}
+    .login-btn{width:100%;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:14px;font-weight:500;cursor:pointer;margin-top:.5rem;transition:opacity .2s;box-shadow:0 6px 24px rgba(124,106,255,.3)}
+    .login-btn:hover{opacity:.88}
+    .login-error{margin-top:.75rem;font-size:12px;color:var(--red);display:none}
+
+    /* ── LAYOUT ── */
+    #dashboard{display:none;min-height:100vh}
+    .sidebar{position:fixed;top:0;right:0;bottom:0;width:230px;background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;z-index:50}
+    .sidebar-logo{padding:1.5rem;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+    .sidebar-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#a855f7);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0}
+    .sidebar-name{font-size:14px;font-weight:500}
+    .sidebar-role{font-size:11px;color:var(--text3);font-family:var(--font-mono)}
+    .sidebar-nav{flex:1;padding:1rem .75rem;display:flex;flex-direction:column;gap:2px}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;border:none;background:transparent;width:100%;text-align:right;font-family:var(--font)}
+    .nav-item i{width:16px;text-align:center;font-size:13px}
+    .nav-item:hover{background:var(--bg3);color:var(--text)}
+    .nav-item.active{background:rgba(124,106,255,.12);color:var(--accent2)}
+    .nav-section-label{font-size:10px;font-family:var(--font-mono);color:var(--text3);letter-spacing:.12em;padding:8px 12px 4px;margin-top:8px}
+    .sidebar-footer{padding:1rem;border-top:1px solid var(--border)}
+    .logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text3);font-family:var(--font);font-size:12px;cursor:pointer;transition:all .15s}
+    .logout-btn:hover{border-color:var(--red);color:var(--red);background:rgba(248,113,113,.05)}
+    .main{margin-right:230px;padding:2rem;min-height:100vh}
+    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
+    .page-title{font-size:24px;font-weight:700}
+    .page-sub{font-size:12px;color:var(--text3);font-family:var(--font-mono);margin-top:2px}
+    .badge-live{display:flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid rgba(74,222,128,.3);border-radius:100px;font-size:11px;color:var(--green);background:rgba(74,222,128,.06)}
+    .badge-live .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+    .panel{display:none}
+    .panel.active{display:block}
+
+    /* ── CARDS ── */
+    .card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+    .card-title{font-size:15px;font-weight:500;margin-bottom:4px}
+    .card-sub{font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-bottom:1.25rem}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+
+    /* ── FORM ELEMENTS ── */
+    .field{margin-bottom:1rem}
+    .field-label{display:block;font-size:11px;color:var(--text3);margin-bottom:5px;letter-spacing:.05em}
+    .field-input{width:100%;padding:9px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font);font-size:13px;outline:none;transition:border-color .2s}
+    .field-input:focus{border-color:var(--accent)}
+    .field-input::placeholder{color:var(--text3)}
+    textarea.field-input{height:90px;resize:vertical}
+    .field-row{display:flex;gap:8px;align-items:flex-end}
+    .field-row .field-input{flex:1}
+
+    /* ── BUTTONS ── */
+    .btn{padding:8px 18px;border-radius:8px;font-family:var(--font);font-size:13px;cursor:pointer;transition:all .2s;border:none}
+    .btn-accent{background:var(--accent);color:#fff;box-shadow:0 4px 16px rgba(124,106,255,.25)}
+    .btn-accent:hover{opacity:.85}
+    .btn-danger{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.3)}
+    .btn-danger:hover{background:rgba(248,113,113,.2)}
+    .btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border)}
+    .btn-ghost:hover{background:var(--bg3);color:var(--text)}
+    .btn-sm{padding:5px 12px;font-size:12px}
+    .save-row{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap}
+
+    /* ── SKILL ITEM ── */
+    .skill-edit-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px;display:flex;flex-direction:column;gap:8px}
+    .skill-edit-row{display:flex;gap:8px;align-items:center}
+    .skill-edit-row input{flex:1;padding:7px 10px;background:var(--bg4);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:var(--font);font-size:12px;outline:none}
+    .skill-edit-row input:focus{border-color:var(--accent)}
+    .color-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--border2);cursor:pointer;flex-shrink:0}
+
+    /* ── PROJECT/REVIEW ITEM ── */
+    .list-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px}
+    .list-item-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .list-item-title{font-size:13px;font-weight:500}
+    .list-item-body{display:flex;flex-direction:column;gap:6px}
+    .list-item-body input,.list-item-body textarea{width:100%;padding:7px 10px;background:var(--bg4);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:var(--font);font-size:12px;outline:none}
+    .list-item-body input:focus,.list-item-body textarea:focus{border-color:var(--accent)}
+    .list-item-body textarea{height:70px;resize:vertical}
+
+    /* ── STATS OVERVIEW ── */
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem}
+    .stat-card{background:var(--bg2);padding:1.25rem 1.5rem;transition:background .15s}
+    .stat-card:hover{background:var(--bg3)}
+    .stat-label{font-size:11px;font-family:var(--font-mono);color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+    .stat-value{font-size:28px;font-weight:700;line-height:1;margin-bottom:4px}
+
+    /* ── SOCIAL EDIT ── */
+    .social-item{display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg3);border-radius:8px;margin-bottom:8px;border:1px solid var(--border)}
+    .social-icon-preview{width:32px;height:32px;border-radius:8px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text2);flex-shrink:0}
+    .social-item input{flex:1;padding:6px 10px;background:var(--bg4);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:var(--font-mono);font-size:11px;outline:none}
+    .social-item input:focus{border-color:var(--accent)}
+
+    /* ── TIMELINE ── */
+    .tl-edit-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px}
+    .tl-edit-grid{display:grid;grid-template-columns:100px 1fr 1fr;gap:8px;margin-top:8px}
+    .tl-edit-grid input{padding:7px 10px;background:var(--bg4);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:var(--font);font-size:12px;outline:none;width:100%}
+    .tl-edit-grid input:focus{border-color:var(--accent)}
+
+    /* ── CREDENTIALS ── */
+    .cred-box{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:1rem;margin-bottom:1rem}
+    .cred-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
+    .cred-row:last-child{border-bottom:none}
+    .cred-key{font-size:12px;color:var(--text2)}
+
+    /* ── TOAST ── */
+    .toast{position:fixed;bottom:1.5rem;left:1.5rem;padding:10px 18px;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;font-size:12px;color:var(--text);z-index:999;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.16,1,.3,1)}
+    .toast.show{transform:translateY(0);opacity:1}
+    .toast-icon{color:var(--green)}
+
+    @media(max-width:900px){
+      .sidebar{display:none}
+      .main{margin-right:0;padding:1rem}
+      .two-col{grid-template-columns:1fr}
+      .stats-grid{grid-template-columns:repeat(2,1fr)}
+      .tl-edit-grid{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════ LOGIN ════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">ج</div>
+    <p class="login-title">لوحة التحكم</p>
+    <p class="login-sub">joode.cc/admin.html — وصول مقيّد</p>
+    <div class="login-field">
+      <label class="login-label">اسم المستخدم</label>
+      <input type="text" class="login-input" id="l-user" placeholder="أدخل اسم المستخدم" autocomplete="off"/>
+    </div>
+    <div class="login-field">
+      <label class="login-label">كلمة المرور</label>
+      <input type="password" class="login-input" id="l-pass" placeholder="أدخل كلمة المرور" autocomplete="off"/>
+    </div>
+    <button class="login-btn" onclick="doLogin()">
+      <i class="fas fa-sign-in-alt"></i> دخول
+    </button>
+    <p class="login-error" id="login-error">
+      <i class="fas fa-times-circle"></i> اسم المستخدم أو كلمة المرور خاطئة
+    </p>
+  </div>
+</div>
+
+<!-- ════ DASHBOARD ════ -->
+<div id="dashboard">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-avatar">ج</div>
+      <div>
+        <p class="sidebar-name">جود</p>
+        <p class="sidebar-role">Admin</p>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="nav-section-label">الرئيسية</p>
+      <button class="nav-item active" onclick="showPanel('overview',this)"><i class="fas fa-chart-pie"></i> نظرة عامة</button>
+      <button class="nav-item" onclick="showPanel('personal',this)"><i class="fas fa-user"></i> المعلومات الشخصية</button>
+      <button class="nav-item" onclick="showPanel('skills',this)"><i class="fas fa-code"></i> المهارات</button>
+      <button class="nav-item" onclick="showPanel('projects',this)"><i class="fas fa-folder"></i> المشاريع</button>
+      <button class="nav-item" onclick="showPanel('reviews',this)"><i class="fas fa-star"></i> التقييمات</button>
+      <button class="nav-item" onclick="showPanel('socials',this)"><i class="fas fa-share-alt"></i> السوشيال</button>
+      <button class="nav-item" onclick="showPanel('timeline',this)"><i class="fas fa-history"></i> التسلسل الزمني</button>
+      <button class="nav-item" onclick="showPanel('stats',this)"><i class="fas fa-chart-bar"></i> الإحصائيات</button>
+      <p class="nav-section-label">الإعدادات</p>
+      <button class="nav-item" onclick="showPanel('export',this)"><i class="fas fa-file-export"></i> تصدير ونشر</button>
+      <button class="nav-item" onclick="showPanel('credentials',this)"><i class="fas fa-lock"></i> كلمة المرور</button>
+      <a class="nav-item" href="index.html" target="_blank" style="text-decoration:none"><i class="fas fa-external-link-alt"></i> عرض الموقع</a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <p class="page-title" id="page-title">نظرة عامة</p>
+        <p class="page-sub" id="page-sub">أهلاً بك في لوحة التحكم 👋</p>
+      </div>
+      <div class="badge-live"><span class="dot"></span> joode.cc مباشر</div>
+    </div>
+
+    <!-- ══ OVERVIEW ══ -->
+    <div class="panel active" id="panel-overview">
+      <div class="stats-grid">
+        <div class="stat-card"><p class="stat-label">المشاريع</p><p class="stat-value" style="color:var(--accent2)" id="ov-projects">5</p></div>
+        <div class="stat-card"><p class="stat-label">العملاء</p><p class="stat-value" style="color:var(--green)" id="ov-clients">8</p></div>
+        <div class="stat-card"><p class="stat-label">المهارات</p><p class="stat-value" style="color:var(--orange)" id="ov-skills">6</p></div>
+        <div class="stat-card"><p class="stat-label">التقييمات</p><p class="stat-value" style="color:var(--yellow)" id="ov-reviews">3</p></div>
+      </div>
+      <div class="card">
+        <p class="card-title">مرحباً بك في لوحة التحكم الحقيقية! 🎉</p>
+        <p class="card-sub" style="margin-bottom:.5rem">كل التغييرات تُحفظ تلقائياً وتظهر فوراً على الموقع</p>
+        <p style="font-size:13px;color:var(--text2);line-height:1.8">
+          يمكنك تعديل كل شيء من هنا:<br/>
+          ✅ اسمك وصفك ووصف من أنا<br/>
+          ✅ مهاراتك ونسبها<br/>
+          ✅ مشاريعك (إضافة / حذف / تعديل)<br/>
+          ✅ تقييمات العملاء<br/>
+          ✅ روابط السوشيال ميديا<br/>
+          ✅ التسلسل الزمني<br/>
+          ✅ الأرقام والإحصائيات<br/>
+          ✅ كلمة المرور
+        </p>
+      </div>
+    </div>
+
+    <!-- ══ PERSONAL ══ -->
+    <div class="panel" id="panel-personal">
+      <div class="card">
+        <p class="card-title">المعلومات الشخصية</p>
+        <p class="card-sub">تُحفظ وتظهر على الموقع فوراً</p>
+        <!-- ══ صورة البروفايل ══ -->
+        <div class="photo-upload-section">
+          <div class="photo-preview-wrap">
+            <div class="photo-preview-circle" id="p-photo-preview">
+              <span style="font-size:28px">ج</span>
+            </div>
+            <div class="photo-upload-actions">
+              <p style="font-size:14px;font-weight:500;margin-bottom:4px">الصورة الشخصية</p>
+              <p style="font-size:12px;color:var(--text3);margin-bottom:12px">تظهر في دائرة الهيرو بالموقع</p>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <label class="btn btn-accent" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:8px 16px">
+                  <i class="fas fa-camera"></i> رفع صورة
+                  <input type="file" accept="image/*" style="display:none" onchange="handlePhotoUpload(event)"/>
+                </label>
+                <button class="btn btn-danger btn-sm" onclick="deletePhoto()" style="padding:8px 14px">
+                  <i class="fas fa-trash"></i> حذف
+                </button>
+              </div>
+              <p id="p-photo-status" style="font-size:11px;color:var(--text3);margin-top:8px;font-family:var(--font-mono)"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <div class="field"><label class="field-label">الاسم</label><input class="field-input" id="p-name" placeholder="جود"/></div>
+            <div class="field"><label class="field-label">الحرف الأول (في الدائرة)</label><input class="field-input" id="p-initial" placeholder="ج" maxlength="2"/></div>
+            <div class="field"><label class="field-label">المسمى الوظيفي</label><input class="field-input" id="p-role" placeholder="// مطور ويب ومصمم واجهات"/></div>
+            <div class="field"><label class="field-label">شارة الهيرو</label><input class="field-input" id="p-available" placeholder="متاح للمشاريع"/></div>
+          </div>
+          <div>
+            <div class="field"><label class="field-label">الوصف المختصر (الهيرو)</label><textarea class="field-input" id="p-desc" placeholder="شغوف بتحويل الأفكار..."></textarea></div>
+            <div class="field"><label class="field-label">نص الفوتر</label><input class="field-input" id="p-footer" placeholder="© 2025 جود..."/></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">فقرة من أنا — ١</label><textarea class="field-input" id="p-about1"></textarea></div>
+        <div class="field"><label class="field-label">فقرة من أنا — ٢</label><textarea class="field-input" id="p-about2"></textarea></div>
+        <div class="field"><label class="field-label">فقرة من أنا — ٣</label><textarea class="field-input" id="p-about3"></textarea></div>
+        <div class="save-row">
+          <button class="btn btn-accent" onclick="savePersonal()"><i class="fas fa-save"></i> حفظ التغييرات</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SKILLS ══ -->
+    <div class="panel" id="panel-skills">
+      <div class="card">
+        <p class="card-title">المهارات</p>
+        <p class="card-sub">اضغط لتعديل الاسم أو النسبة أو اللون</p>
+        <div id="skills-editor"></div>
+        <div class="save-row">
+          <button class="btn btn-accent" onclick="saveSkills()"><i class="fas fa-save"></i> حفظ المهارات</button>
+          <button class="btn btn-ghost" onclick="addSkill()"><i class="fas fa-plus"></i> إضافة مهارة</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PROJECTS ══ -->
+    <div class="panel" id="panel-projects">
+      <div class="card">
+        <p class="card-title">المشاريع</p>
+        <p class="card-sub">عدّل، أضف، أو احذف أي مشروع</p>
+        <div id="projects-editor"></div>
+        <div class="save-row">
+          <button class="btn btn-accent" onclick="saveProjects()"><i class="fas fa-save"></i> حفظ المشاريع</button>
+          <button class="btn btn-ghost" onclick="addProject()"><i class="fas fa-plus"></i> إضافة مشروع</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ REVIEWS ══ -->
+    <div class="panel" id="panel-reviews">
+      <div class="card">
+        <p class="card-title">تقييمات العملاء</p>
+        <p class="card-sub">عدّل أو أضف تقييمات</p>
+        <div id="reviews-editor"></div>
+        <div class="save-row">
+          <button class="btn btn-accent" onclick="saveReviews()"><i class="fas fa-save"></i> حفظ التقييمات</button>
+          <button class="btn btn-ghost" onclick="addReview()"><i class="fas fa-plus"></i> إضافة تقييم</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SOCIALS ══ -->
+    <div class="panel" id="panel-socials">
+      <div class="card">
+        <p class="card-title">السوشيال ميديا</p>
+        <p class="card-sub">عدّل روابطك</p>
+        <div id="socials-editor"></div>
+        <div class="save-row">
+          <button class="btn btn-accent" onclick="saveSocials()"><i class="fas fa-save"></i> حفظ الروابط</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TIMELINE ══ -->
+    <div class="panel" id="panel-timeline">
+      <div class="card">
+        <p class="card-title">التسلسل الزمني</p>
+        <p class="card-sub">مسيرتك المهنية</p>
+        <div id="timeline-editor"></div>
+        <div class="save-row">
+          <button class="btn btn-accent" onclick="saveTimeline()"><i class="fas fa-save"></i> حفظ</button>
+          <button class="btn btn-ghost" onclick="addTimelineItem()"><i class="fas fa-plus"></i> إضافة</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ STATS ══ -->
+    <div class="panel" id="panel-stats">
+      <div class="card">
+        <p class="card-title">الأرقام والإحصائيات</p>
+        <p class="card-sub">الأرقام التي تظهر في الهيرو</p>
+        <div class="two-col">
+          <div>
+            <div class="field"><label class="field-label">عدد المشاريع</label><input class="field-input" id="st-projects" type="number"/></div>
+            <div class="field"><label class="field-label">عدد العملاء</label><input class="field-input" id="st-clients" type="number"/></div>
+          </div>
+          <div>
+            <div class="field"><label class="field-label">عدد الـ Commits</label><input class="field-input" id="st-commits" type="number"/></div>
+            <div class="field"><label class="field-label">ساعات البرمجة</label><input class="field-input" id="st-hours" type="number"/></div>
+          </div>
+        </div>
+        <div class="save-row">
+          <button class="btn btn-accent" onclick="saveStats()"><i class="fas fa-save"></i> حفظ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CREDENTIALS ══ -->
+    <div class="panel" id="panel-credentials">
+      <div class="card">
+        <p class="card-title">تغيير بيانات الدخول</p>
+        <p class="card-sub">اسم المستخدم وكلمة المرور للوحة التحكم</p>
+        <div class="cred-box">
+          <div class="cred-row"><span class="cred-key">اسم المستخدم الحالي</span><span id="curr-user" style="font-family:var(--font-mono);color:var(--accent2)">jood</span></div>
+          <div class="cred-row"><span class="cred-key">كلمة المرور الحالية</span><span style="font-family:var(--font-mono);color:var(--text3)">••••••••</span></div>
+        </div>
+        <div class="field"><label class="field-label">اسم المستخدم الجديد</label><input class="field-input" id="new-user" placeholder="اكتب اسماً جديداً" style="direction:ltr"/></div>
+        <div class="field"><label class="field-label">كلمة المرور الجديدة</label><input class="field-input" id="new-pass" type="password" placeholder="اكتب كلمة مرور جديدة" style="direction:ltr"/></div>
+        <div class="field"><label class="field-label">تأكيد كلمة المرور</label><input class="field-input" id="confirm-pass" type="password" placeholder="أعد كتابة كلمة المرور" style="direction:ltr"/></div>
+        <div class="save-row">
+          <button class="btn btn-accent" onclick="saveCredentials()"><i class="fas fa-lock"></i> حفظ بيانات الدخول</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══ EXPORT ══ -->
+    <div class="panel" id="panel-export">
+      <div class="card">
+        <p class="card-title">📦 تصدير ونشر على GitHub</p>
+        <p class="card-sub">بعد إضافة الصور والتعديلات، حمّل الملف وارفعه على GitHub</p>
+
+        <!-- إحصائيات -->
+        <div class="export-stats-grid">
+          <div class="export-stat">
+            <i class="fas fa-folder" style="color:var(--accent2)"></i>
+            <span class="export-stat-val" id="export-proj-count">0</span>
+            <span class="export-stat-lbl">مشروع</span>
+          </div>
+          <div class="export-stat">
+            <i class="fas fa-images" style="color:var(--green)"></i>
+            <span class="export-stat-val" id="export-img-count">0</span>
+            <span class="export-stat-lbl">صورة مضمنة</span>
+          </div>
+        </div>
+
+        <!-- شريط الحجم -->
+        <div style="margin:1.5rem 0">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:12px">
+            <span style="color:var(--text2)">حجم data.js</span>
+            <span id="storage-size">0 KB</span>
+          </div>
+          <div style="height:6px;background:var(--bg3);border-radius:3px;overflow:hidden">
+            <div id="storage-bar" style="height:100%;width:0;border-radius:3px;transition:width .5s,background .5s"></div>
+          </div>
+          <p style="font-size:10px;color:var(--text3);margin-top:4px;font-family:var(--font-mono)">الحد الأقصى الموصى به: 5,000 KB</p>
+        </div>
+
+        <!-- خطوات النشر -->
+        <div class="export-steps">
+          <div class="export-step">
+            <div class="export-step-num">١</div>
+            <div class="export-step-txt">
+              <p class="export-step-title">حمّل الملف</p>
+              <p class="export-step-desc">اضغط الزر أدناه لتحميل data.js المحدّث بكل صورك وتعديلاتك</p>
+            </div>
+          </div>
+          <div class="export-step">
+            <div class="export-step-num">٢</div>
+            <div class="export-step-txt">
+              <p class="export-step-title">افتح GitHub</p>
+              <p class="export-step-desc">روح على github.com → joode3 → joode repository</p>
+            </div>
+          </div>
+          <div class="export-step">
+            <div class="export-step-num">٣</div>
+            <div class="export-step-txt">
+              <p class="export-step-title">استبدل الملف القديم</p>
+              <p class="export-step-desc">اضغط على data.js القديم → Delete → ثم ارفع الجديد</p>
+            </div>
+          </div>
+          <div class="export-step">
+            <div class="export-step-num">٤</div>
+            <div class="export-step-txt">
+              <p class="export-step-title">الموقع يتحدث تلقائياً ✅</p>
+              <p class="export-step-desc">انتظر دقيقة وافتح joode.cc — الصور والتعديلات للعالم كله</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-accent" onclick="exportDataJs()" style="width:100%;padding:14px;font-size:15px;margin-top:1rem">
+          <i class="fas fa-download"></i> تحميل data.js الآن
+        </button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast">
+  <i class="fas fa-check-circle toast-icon"></i>
+  <span id="toast-msg"></span>
+</div>
+
+<script src="data.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
+<style>
+/* ── Image gallery section in admin ── */
+.img-gallery-section {
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 4px;
+}
+.img-thumbs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 10px;
+}
+.img-thumb-item {
+  position: relative;
+  width: 72px; height: 54px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border2);
+  flex-shrink: 0;
+}
+.img-thumb-item img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.img-thumb-del {
+  position: absolute; top: 2px; right: 2px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: rgba(248,113,113,0.9); color: #fff;
+  border: none; cursor: pointer; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+.img-thumb-del:hover { background: #f87171; }
+
+/* ── Drag item ── */
+.drag-item { cursor: default; transition: opacity 0.2s; }
+.drag-item:hover { border-color: var(--border2); }
+</style>
+<style>
+/* ══ Projects Editor ══ */
+.proj-card { background:var(--bg3); border:1px solid var(--border); border-radius:12px; margin-bottom:10px; overflow:hidden; transition:border-color .2s; }
+.proj-card:hover { border-color:var(--border2); }
+.proj-card-head { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; background:var(--bg3); cursor:default; }
+.proj-card-num { width:22px; height:22px; border-radius:50%; background:var(--accent); color:#fff; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-family:var(--font-mono); }
+.proj-card-title-text { font-size:13px; font-weight:500; }
+.proj-card-body { display:flex; flex-direction:column; gap:10px; padding:14px; border-top:1px solid var(--border); }
+.proj-card-body input, .proj-card-body textarea { width:100%; padding:8px 11px; background:var(--bg4); border:1px solid var(--border); border-radius:7px; color:var(--text); font-family:var(--font); font-size:13px; outline:none; transition:border-color .2s; }
+.proj-card-body input:focus, .proj-card-body textarea:focus { border-color:var(--accent); }
+.proj-card-body textarea { height:80px; resize:vertical; }
+.proj-row-3 { display:grid; grid-template-columns:70px 1fr 1fr; gap:8px; }
+.field-label-sm { display:block; font-size:10px; color:var(--text3); font-family:var(--font-mono); margin-bottom:4px; letter-spacing:.05em; }
+.drag-handle { color:var(--text3); cursor:grab; font-size:14px; }
+.drag-handle:active { cursor:grabbing; }
+.imgs-badge { background:rgba(74,222,128,.1); color:var(--green); font-size:10px; padding:2px 7px; border-radius:100px; font-family:var(--font-mono); }
+
+/* ══ Image upload section ══ */
+.imgs-section { background:var(--bg4); border:1px solid var(--border); border-radius:9px; padding:12px; }
+.imgs-section-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; font-size:12px; color:var(--text2); }
+.imgs-count-badge { background:var(--accent); color:#fff; font-size:10px; padding:1px 6px; border-radius:100px; margin-right:4px; font-family:var(--font-mono); }
+.imgs-thumbs-grid { display:flex; flex-wrap:wrap; gap:8px; align-items:flex-start; }
+.img-thumb-wrap { position:relative; width:80px; height:60px; border-radius:7px; overflow:hidden; border:1px solid var(--border2); flex-shrink:0; }
+.img-thumb-preview { width:100%; height:100%; object-fit:cover; display:block; cursor:zoom-in; transition:opacity .15s; }
+.img-thumb-preview:hover { opacity:.8; }
+.img-thumb-del { position:absolute; top:2px; right:2px; width:20px; height:20px; border-radius:50%; background:rgba(248,113,113,.9); color:#fff; border:none; cursor:pointer; font-size:13px; display:flex; align-items:center; justify-content:center; line-height:1; font-weight:bold; }
+.img-thumb-del:hover { background:#f87171; }
+.img-upload-zone { width:80px; height:60px; border-radius:7px; border:2px dashed var(--border2); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; color:var(--text3); font-size:11px; gap:2px; transition:all .2s; flex-shrink:0; text-align:center; }
+.img-upload-zone:hover { border-color:var(--accent); color:var(--accent); background:rgba(124,106,255,.05); }
+.upload-progress { display:flex; flex-direction:column; gap:4px; margin-top:8px; }
+.upload-progress-fill { height:4px; background:var(--accent); border-radius:2px; width:0; transition:width .3s; }
+.upload-progress-txt { font-size:11px; color:var(--text3); font-family:var(--font-mono); }
+
+/* ══ Export panel ══ */
+.export-stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:1rem; }
+.export-stat { background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:1rem; display:flex; flex-direction:column; align-items:center; gap:4px; text-align:center; }
+.export-stat-val { font-size:28px; font-weight:700; line-height:1; }
+.export-stat-lbl { font-size:11px; color:var(--text3); font-family:var(--font-mono); }
+.export-steps { display:flex; flex-direction:column; gap:0; }
+.export-step { display:flex; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
+.export-step:last-child { border-bottom:none; }
+.export-step-num { width:28px; height:28px; border-radius:50%; background:rgba(124,106,255,.15); color:var(--accent2); font-size:12px; font-weight:600; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+.export-step-title { font-size:13px; font-weight:500; margin-bottom:2px; }
+.export-step-desc { font-size:11px; color:var(--text3); line-height:1.5; }
+</style>
+<style>
+/* ── Social editor rows ── */
+.social-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  margin-bottom: 7px;
+}
+.social-edit-row input {
+  flex: 1;
+  padding: 7px 10px;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  outline: none;
+}
+.social-edit-row input:focus { border-color: var(--accent); }
+
+.social-add-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.social-add-row select {
+  flex: 1;
+}
+</style>
+<style>
+/* ── Photo upload section ── */
+.photo-upload-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.photo-preview-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.photo-preview-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #a855f7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: var(--font);
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 0 0 3px var(--bg2), 0 0 0 4px var(--border2), 0 8px 24px rgba(124,106,255,0.3);
+}
+</style>
